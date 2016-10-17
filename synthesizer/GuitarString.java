@@ -1,8 +1,10 @@
 // TODO: Make sure to make this class a part of the synthesizer package
 //package <package name>;
 package synthesizer;
+import synthesizer.ArrayRingBuffer;
+import synthesizer.BoundedQueue;
 //Make sure this class is public
-public class GuitarString implements ArrayRingBuffer<double> {
+public class GuitarString {
     /** Constants. Do not change. In case you're curious, the keyword final means
      * the values cannot be changed at runtime. We'll discuss this and other topics
      * in lecture on Friday. */
@@ -10,16 +12,17 @@ public class GuitarString implements ArrayRingBuffer<double> {
     private static final double DECAY = .996; // energy decay factor
 
     /* Buffer for storing sound data. */
-    private BoundedQueue<Double> buffer;
-
+    // private BoundedQueue<Double> buffer;
+    public BoundedQueue<Double> buffer;
+    public int capacity;
     /* Create a guitar string of the given frequency.  */
-    public GuitarString(double frequency) {
+    public void GuitarString(double frequency) {
         // TODO: Create a buffer with capacity = SR / frequency. You'll need to
         //       cast the result of this divsion operation into an int. For better
         //       accuracy, use the Math.round() function before casting.
         //       Your buffer should be initially filled with zeros.
         capacity = (int) Math.round(SR / frequency);
-        buffer = new ArrayRingBuffer(capacity)
+        buffer = new ArrayRingBuffer(capacity);
     }
 
 
@@ -30,6 +33,10 @@ public class GuitarString implements ArrayRingBuffer<double> {
         //       double r = Math.random() - 0.5;
         //
         //       Make sure that your random numbers are different from each other.
+        while (!buffer.isFull()) {
+            double r = Math.random() - 0.5;
+            buffer.enqueue(r);
+        }
     }
 
     /* Advance the simulation one time step by performing one iteration of
