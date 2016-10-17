@@ -16,13 +16,16 @@ public class GuitarString {
     public BoundedQueue<Double> buffer;
     public int capacity;
     /* Create a guitar string of the given frequency.  */
-    public void GuitarString(double frequency) {
+    public GuitarString(double frequency) {
         // TODO: Create a buffer with capacity = SR / frequency. You'll need to
         //       cast the result of this divsion operation into an int. For better
         //       accuracy, use the Math.round() function before casting.
         //       Your buffer should be initially filled with zeros.
         capacity = (int) Math.round(SR / frequency);
         buffer = new ArrayRingBuffer(capacity);
+        while (!buffer.isFull()) {
+            buffer.enqueue(0.0);
+        }
     }
 
 
@@ -33,7 +36,11 @@ public class GuitarString {
         //       double r = Math.random() - 0.5;
         //
         //       Make sure that your random numbers are different from each other.
+        while (!buffer.isEmpty()) {
+            buffer.dequeue();
+        }
         while (!buffer.isFull()) {
+
             double r = Math.random() - 0.5;
             buffer.enqueue(r);
         }
@@ -48,7 +55,7 @@ public class GuitarString {
         //       Do not call StdAudio.play().
         double firstItem = buffer.dequeue();
         double secondItem = buffer.peek();
-        double newItem = (firstItem + secondItem) * DECAY;
+        double newItem = (firstItem + secondItem) / 2 * DECAY;
         buffer.enqueue(newItem);
     }
 

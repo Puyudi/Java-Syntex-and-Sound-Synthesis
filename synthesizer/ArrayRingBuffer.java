@@ -17,7 +17,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     /**
      * Create a new ArrayRingBuffer with the given capacity.
      */
-    public void ArrayRingBuffer(int capacity) {
+    public ArrayRingBuffer(int capacity) {
         // TODO: Create new array with capacity elements.
         //       first, last, and fillCount should all be set to 0.
         //       this.capacity should be set appropriately. Note that the local variable
