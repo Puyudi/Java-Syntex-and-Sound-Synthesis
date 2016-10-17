@@ -40,7 +40,12 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
         if (fillCount >= capacity) {
             throw new RuntimeException("Ring buffer overflow");   
         } else {
-            
+            rb[last] = x;
+            last += 1;
+            fillCount += 1;
+            if (last == capacity) {
+                last = 0;
+            }
         }
     }
 
