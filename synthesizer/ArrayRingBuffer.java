@@ -79,4 +79,31 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     }
 
     // TODO: When you get to part 5, implement the needed code to support iteration.
+    public class MapWizard implements Iterator<T> {
+        private int notionOfWhereHeIs;
+        private int count;
+        public MapWizard() {
+            notionOfWhereHeIs = first;
+            count = 0;
+        }
+
+        public boolean hasNext() {
+            return (count < fillCount);
+        }
+
+        public T next() {
+            T currentThing = rb[notionOfWhereHeIs];
+            notionOfWhereHeIs += 1;
+            if (notionOfWhereHeIs == capacity) {
+                notionOfWhereHeIs = 0;
+            }
+            count += 1;
+            return currentThing;
+        }
+    }
+
+    public Iterator<T> iterator() {
+        return new MapWizard();
+    }
+
 }
